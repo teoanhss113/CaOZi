@@ -1,0 +1,111 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function isTeamMember(teamId) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/teams/$(teamId))
+        && request.auth.uid in get(/databases/$(database)/documents/teams/$(teamId)).data.members;
+    }
+
+    function joiningSelfOnly() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members'])
+        && request.resource.data.members.toSet().difference(resource.data.members.toSet()) == [request.auth.uid].toSet()
+        && resource.data.members.toSet().difference(request.resource.data.members.toSet()).size() == 0;
+    }
+
+    function leavingSelfOnly() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members'])
+        && resource.data.members.toSet().difference(request.resource.data.members.toSet()) == [request.auth.uid].toSet()
+        && request.resource.data.members.toSet().difference(resource.data.members.toSet()).size() == 0;
+    }
+
+    match /users/{userId} {
+      allow read: if isSelf(userId);
+      allow create: if isSelf(userId);
+      allow update, delete: if isSelf(userId);
+    }
+
+    match /publicProfiles/{userId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isSelf(userId);
+    }
+
+    match /teams/{teamId} {
+      allow read: if signedIn() && (
+        resource.data.createdBy == request.auth.uid
+        || request.auth.uid in resource.data.members
+      );
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.members == [request.auth.uid];
+      allow update: if signedIn() && (
+        (resource.data.createdBy == request.auth.uid
+          && request.resource.data.createdBy == resource.data.createdBy)
+        || joiningSelfOnly()
+        || leavingSelfOnly()
+      );
+      allow delete: if signedIn() && resource.data.createdBy == request.auth.uid;
+    }
+
+    match /inviteCodes/{code} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && getAfter(/databases/$(database)/documents/teams/$(request.resource.data.teamId)).data.createdBy == request.auth.uid;
+      allow update: if false;
+      allow delete: if signedIn() && resource.data.createdBy == request.auth.uid;
+    }
+
+    match /tasks/{taskId} {
+      function canReadTask() {
+        return signedIn() && (
+          resource.data.get('userId', null) == request.auth.uid
+          || resource.data.get('createdBy', null) == request.auth.uid
+          || (resource.data.get('teamId', null) != null
+            && isTeamMember(resource.data.get('teamId', null)))
+        );
+      }
+
+      function canCreateTask() {
+        return signedIn() && request.resource.data.get('createdBy', null) == request.auth.uid && (
+          request.resource.data.get('userId', null) == request.auth.uid
+          || (request.resource.data.get('teamId', null) != null
+            && isTeamMember(request.resource.data.get('teamId', null)))
+        );
+      }
+
+      function immutableOwnership() {
+        return request.resource.data.get('userId', null) == resource.data.get('userId', null)
+          && request.resource.data.get('teamId', null) == resource.data.get('teamId', null)
+          && request.resource.data.get('createdBy', null) == resource.data.get('createdBy', null);
+      }
+
+      allow read: if canReadTask();
+      allow create: if canCreateTask();
+      allow update: if canReadTask() && immutableOwnership();
+      allow delete: if canReadTask();
+    }
+
+    match /reports/{reportId} {
+      allow create: if signedIn()
+        && request.resource.data.reporterId == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow read, delete: if signedIn() && resource.data.reporterId == request.auth.uid;
+      allow update: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

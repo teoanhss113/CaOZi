@@ -37,5 +37,8 @@ yarn-error.*
 *.tsbuildinfo
 
 # generated native folders
-/ios
+# iOS is committed (Dynamic Island target is hand-written); Pods/build are ignored by ios/.gitignore.
 /android
+
+# local work output (demo videos, verification captures)
+/output/

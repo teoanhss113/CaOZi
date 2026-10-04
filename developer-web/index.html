@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7fb" />
+    <title>PetMotion — Developer Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="PetMotion Studio">
+          <span class="brand-mark"><i></i><i></i><b></b></span>
+          <span>petmotion<span class="brand-dot">.</span></span>
+        </a>
+
+        <nav class="side-nav" aria-label="Điều hướng chính">
+          <p class="nav-label">Workspace</p>
+          <a class="nav-item active" href="#library" data-section="library">
+            <span class="nav-icon">⌂</span><span>Thư viện</span><span class="nav-count">24</span>
+          </a>
+          <button class="nav-item" data-open-editor>
+            <span class="nav-icon">⌁</span><span>JSON Studio</span><span class="live-dot"></span>
+          </button>
+          <a class="nav-item" href="#analytics"><span class="nav-icon">↗</span><span>Phân tích</span></a>
+          <a class="nav-item" href="#collections"><span class="nav-icon">◇</span><span>Bộ sưu tập</span></a>
+          <p class="nav-label">Distribution</p>
+          <a class="nav-item" href="#app-store"><span class="nav-icon">▣</span><span>App Store</span><span class="status-pill">LIVE</span></a>
+          <a class="nav-item" href="#api"><span class="nav-icon">{ }</span><span>API & CDN</span></a>
+          <a class="nav-item" href="#team"><span class="nav-icon">◎</span><span>Thành viên</span></a>
+        </nav>
+
+        <div class="side-footer">
+          <div class="plan-copy"><span>Studio plan</span><strong>68% dung lượng</strong></div>
+          <div class="progress"><i></i></div>
+          <button class="upgrade">Nâng cấp workspace <span>↗</span></button>
+          <div class="profile">
+            <div class="avatar">TA</div>
+            <div><strong>Teo Anh</strong><span>Developer</span></div>
+            <button aria-label="Mở menu">•••</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <button class="mobile-menu" aria-label="Mở điều hướng">☰</button>
+          <div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Robot Pet</strong></div>
+          <div class="top-actions">
+            <button class="icon-button" aria-label="Thông báo">♢<span></span></button>
+            <button class="secondary-button" data-open-editor><span>＋</span> Tạo animation</button>
+          </div>
+        </header>
+
+        <section class="hero" id="library">
+          <div class="hero-copy">
+            <span class="eyebrow"><i></i> DEVELOPER MOTION PLATFORM</span>
+            <h1>Chuyển động nhỏ.<br /><em>Cảm xúc thật.</em></h1>
+            <p>Thiết kế, tinh chỉnh và xuất bản animation cho mọi Robot Pet — tất cả trong một luồng làm việc.</p>
+            <div class="hero-actions">
+              <button class="primary-button" data-open-editor><span>✦</span> Mở JSON Studio</button>
+              <button class="text-button" id="watchFlow">Xem cách hoạt động <span>↗</span></button>
+            </div>
+          </div>
+          <div class="hero-visual" aria-label="Minh họa luồng Web tới App">
+            <div class="orb orb-one"></div><div class="orb orb-two"></div>
+            <div class="motion-stage"><div id="heroLottie"></div><div class="stage-shadow"></div></div>
+            <div class="sync-card"><span class="sync-icon">↯</span><div><b>Đã đồng bộ với App</b><small>24 animation · vừa xong</small></div><span class="check">✓</span></div>
+            <span class="float-tag tag-json">JSON <b>48 KB</b></span>
+            <span class="float-tag tag-fps">60 <b>FPS</b></span>
+          </div>
+        </section>
+
+        <section class="stats" id="analytics">
+          <article><span>Animation đã xuất bản</span><div><strong id="publishedCount">24</strong><small class="positive">+3 tháng này</small></div></article>
+          <article><span>Lượt dùng trong App</span><div><strong>18.6K</strong><small class="positive">↗ 12.4%</small></div></article>
+          <article><span>Tỉ lệ tải thành công</span><div><strong>99.8%</strong><small>7 ngày qua</small></div></article>
+          <article><span>Dung lượng trung bình</span><div><strong>42 KB</strong><small class="positive">↓ 18%</small></div></article>
+        </section>
+
+        <section class="library-section">
+          <div class="section-heading">
+            <div><span class="eyebrow">MOTION LIBRARY</span><h2>Animation của bạn</h2></div>
+            <div class="library-tools">
+              <label class="search"><span>⌕</span><input id="searchInput" placeholder="Tìm animation..." /></label>
+              <button class="filter-button" id="filterButton">☷ <span>Tất cả</span></button>
+              <div class="view-switch"><button class="active" aria-label="Dạng lưới">▦</button><button aria-label="Dạng danh sách">☰</button></div>
+            </div>
+          </div>
+
+          <div class="filter-chips" id="filterChips">
+            <button class="active" data-filter="all">Tất cả <span>24</span></button>
+            <button data-filter="published">Đã xuất bản <span>18</span></button>
+            <button data-filter="draft">Bản nháp <span>6</span></button>
+          </div>
+
+          <div class="animation-grid" id="animationGrid"></div>
+          <div class="empty-state" id="emptyState"><span>⌕</span><h3>Không tìm thấy animation</h3><p>Thử một từ khóa hoặc bộ lọc khác.</p></div>
+        </section>
+
+        <section class="distribution" id="app-store">
+          <div><span class="eyebrow light">WEB → APP DISTRIBUTION</span><h2>Một lần xuất bản.<br />Mọi Robot Pet đều sống động.</h2><p>Animation sau khi được duyệt sẽ tự động hiển thị trong cửa hàng của App, sẵn sàng để người dùng khám phá và tải về.</p></div>
+          <div class="flow">
+            <div class="flow-node"><span>{ }</span><b>JSON Studio</b><small>Tạo & kiểm tra</small></div><i><b></b></i>
+            <div class="flow-node"><span>☁</span><b>Motion CDN</b><small>Tối ưu & phân phối</small></div><i><b></b></i>
+            <div class="flow-node phone"><span>◉</span><b>Robot Pet App</b><small>Cửa hàng người dùng</small></div>
+          </div>
+        </section>
+
+        <footer><a class="brand footer-brand" href="#"><span class="brand-mark"><i></i><i></i><b></b></span><span>petmotion<span class="brand-dot">.</span></span></a><p>Motion infrastructure for delightful robot companions.</p><span>© 2026 PetMotion Studio</span></footer>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="editorModal" aria-hidden="true">
+      <section class="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+        <header class="editor-header">
+          <div><span class="editor-logo">{ }</span><div><h2 id="editorTitle">Lottie JSON Studio</h2><p id="editorFile">happy_loop.json</p></div></div>
+          <div class="editor-status"><i></i><span id="saveStatus">Đã lưu</span></div>
+          <button class="close-editor" aria-label="Đóng">×</button>
+        </header>
+        <div class="editor-toolbar">
+          <button id="formatJson">≡ Định dạng</button><button id="validateJson">✓ Kiểm tra JSON</button><button id="downloadJson">⇩ Tải xuống</button>
+          <span></span>
+          <label>Tốc độ <select id="speedSelect"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
+        </div>
+        <div class="editor-body">
+          <div class="code-panel"><div class="code-tabs"><button class="active">JSON</button><button>Thuộc tính</button></div><div class="code-wrap"><pre id="lineNumbers">1</pre><textarea id="jsonEditor" spellcheck="false" aria-label="Nội dung Lottie JSON"></textarea></div><div class="code-footer"><span id="jsonMeta">Sẵn sàng</span><span>UTF-8 · Lottie JSON</span></div></div>
+          <div class="preview-panel"><div class="preview-top"><span>LIVE PREVIEW</span><div><button id="bgToggle">◐</button><button id="fitToggle">⌗</button></div></div><div class="preview-canvas"><div id="editorLottie"></div></div><div class="timeline"><button id="playToggle">❚❚</button><span id="currentFrame">00:00</span><input id="timelineRange" type="range" min="0" max="100" value="0" /><span id="durationLabel">00:03</span><button id="loopToggle" class="active">↻</button></div><div class="preview-meta"><div><span>Kích thước</span><b id="dimensions">512 × 512</b></div><div><span>Frame rate</span><b id="frameRate">60 FPS</b></div><div><span>Dung lượng</span><b id="fileSize">—</b></div></div></div>
+        </div>
+        <footer class="editor-footer"><p><i></i><span id="validationText">JSON hợp lệ và sẵn sàng xuất bản</span></p><div><button class="cancel-editor">Hủy</button><button class="save-draft">Lưu bản nháp</button><button class="publish-button" id="publishButton">Đẩy lên App <span>→</span></button></div></footer>
+      </section>
+    </div>
+
+    <div class="toast" id="toast"><span>✓</span><div><b>Đã xuất bản lên App</b><small>Animation sẽ xuất hiện trong cửa hàng sau vài giây.</small></div></div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "format": "Lottie with embedded PNG sequence; not recovered vector layers",
+  "firstExcludedPetFrame": 38,
+  "results": [
+    {
+      "source": "Animation_Trung_1.mp4",
+      "sourceSha256": "00344c3b12e1827b4d55ad0a954dff203607f278e759daa12910c4d27d215bfd",
+      "file": "D2_Trung_Rung_256x256.json",
+      "sourceFrames": 132,
+      "frames": 132,
+      "fps": 29.97002997002997,
+      "durationSeconds": 4.4044,
+      "width": 256,
+      "height": 256,
+      "bytes": 5725700,
+      "embeddedImages": 132
+    },
+    {
+      "source": "Animation_Trung_.mp4",
+      "sourceSha256": "9d4e1f66518da47f7e90e23ab051e2827ec2e6cfe9f6400423ee39d8c9c16c2c",
+      "file": "D2_Trung_Phat Sang_256x256.json",
+      "sourceFrames": 120,
+      "frames": 38,
+      "fps": 29.97002997002997,
+      "durationSeconds": 1.2679333333333334,
+      "width": 256,
+      "height": 256,
+      "bytes": 1118978,
+      "embeddedImages": 37
+    }
+  ]
+}
